@@ -1,28 +1,27 @@
-// posts-model.ts - A mongoose model
+// comments-model.ts - A mongoose model
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 import { Application } from '../declarations';
 import { Document, Model, Mongoose } from 'mongoose';
 import { UseType } from './users.model';
+import { PostType } from './posts.model';
 
-export interface PostType extends Document {
-  title: string
-  description: string
-  content: string
+export interface CommentType extends Document {
+  text: string 
   owner: UseType
+  post: PostType
 }
 
-export default function (app: Application): Model<PostType> {
-  const modelName = 'posts';
+
+export default function (app: Application): Model<CommentType> {
+  const modelName = 'comments';
   const mongooseClient: Mongoose = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const schema = new Schema({
-    title: {type: String, required: true},
-    content: { type: String, required: true },
-    description: { type: String, required: true },
-    owner: { type: Schema.Types.ObjectId, ref: "Users" },
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }]
+    text: { type: String, required: true },
+    owner: {type: Schema.Types.ObjectId, ref: 'Users'},
+    post: {type: Schema.Types.ObjectId, ref: 'Posts'}
   }, {
     timestamps: true
   });
@@ -32,5 +31,5 @@ export default function (app: Application): Model<PostType> {
   if (mongooseClient.modelNames().includes(modelName)) {
     (mongooseClient as any).deleteModel(modelName);
   }
-  return mongooseClient.model<PostType>(modelName, schema);
+  return mongooseClient.model<CommentType>(modelName, schema);
 }

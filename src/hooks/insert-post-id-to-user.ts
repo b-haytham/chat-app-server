@@ -5,9 +5,7 @@ import { Hook, HookContext } from "@feathersjs/feathers";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default (options = {}): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
-
-
-    const r =  await context.app
+    const r = await context.app
       .service("users")
       .Model.findByIdAndUpdate(
         context.data.owner,
@@ -15,7 +13,6 @@ export default (options = {}): Hook => {
         { new: true, useFindAndModify: true }
       );
 
-console.log(r)
     return context;
   };
 };

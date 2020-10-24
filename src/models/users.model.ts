@@ -19,14 +19,12 @@ export default function (app: Application): Model<UseType> {
   const modelName = 'users';
   const mongooseClient: Mongoose = app.get('mongooseClient');
   const schema = new mongooseClient.Schema({
-    username: { type: String },
-    email: { type: String, unique: true, lowercase: true },
+    username: { type: String, required: true },
+    email: { type: String, unique: true, lowercase: true, required: true },
     password: { type: String },
     avatar: {type: String},
-    posts: [{
-      type: Schema.Types.ObjectId,
-      ref: 'Posts'
-    }]
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Posts' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }]
   }, {
     timestamps: true
   });

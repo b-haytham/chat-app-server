@@ -31,6 +31,11 @@ export default {
             nameAs: 'posts',
             parentField: 'posts',
             childField: '_id'
+          },{
+            service: 'comments',
+            nameAs: 'comments',
+            parentField: 'comments',
+            childField: '_id'
           }]
         }
       })

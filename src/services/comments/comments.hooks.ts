@@ -1,6 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
 import { populate } from 'feathers-hooks-common';
-import insertPostIdToUser from '../../hooks/insert-post-id-to-user';
+import insertCommentId from '../../hooks/insert-comment-id';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -17,26 +17,29 @@ export default {
   },
 
   after: {
-    all: [
-      populate({
-        schema: {
-          include:[{
+    all: [populate({
+      schema: {
+        include: [
+          {
             service: 'users',
             nameAs: 'owner',
             parentField: 'owner',
             childField: '_id'
-          },{
-            service: 'comments',
-            nameAs: 'comments',
-            parentField: 'comments',
-            childField: '_id'
-          }]
-        }
-      })
-    ],
+          },
+            {
+              service: 'posts',
+              nameAs: 'post',
+              parentField: 'post',
+              childField: '_id'
+            }
+          
+
+        ]
+      }
+    })],
     find: [],
     get: [],
-    create: [insertPostIdToUser()],
+    create: [insertCommentId()],
     update: [],
     patch: [],
     remove: []
