@@ -3,15 +3,30 @@
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 import { Application } from '../declarations';
-import { Model, Mongoose } from 'mongoose';
+import { Document, Model, Mongoose, Schema } from 'mongoose';
+import { PostType } from './posts.model';
 
-export default function (app: Application): Model<any> {
+
+export interface UseType extends Document {
+  username: string
+  email: string 
+  password: string
+  avatar: string,
+  posts:  PostType[]
+}
+
+export default function (app: Application): Model<UseType> {
   const modelName = 'users';
   const mongooseClient: Mongoose = app.get('mongooseClient');
   const schema = new mongooseClient.Schema({
     username: { type: String },
     email: { type: String, unique: true, lowercase: true },
     password: { type: String },
+    avatar: {type: String},
+    posts: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Posts'
+    }]
   }, {
     timestamps: true
   });
@@ -21,5 +36,5 @@ export default function (app: Application): Model<any> {
   if (mongooseClient.modelNames().includes(modelName)) {
     (mongooseClient as any).deleteModel(modelName);
   }
-  return mongooseClient.model<any>(modelName, schema);
+  return mongooseClient.model<UseType>(modelName, schema);
 }

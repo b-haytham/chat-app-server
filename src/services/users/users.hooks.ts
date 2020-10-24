@@ -1,6 +1,9 @@
 import * as feathersAuthentication from '@feathersjs/authentication';
 import * as local from '@feathersjs/authentication-local';
+import { populate } from 'feathers-hooks-common';
 // Don't remove this comment. It's needed to format import lines nicely.
+
+
 
 const { authenticate } = feathersAuthentication.hooks;
 const { hashPassword, protect } = local.hooks;
@@ -20,7 +23,18 @@ export default {
     all: [ 
       // Make sure the password field is never sent to the client
       // Always must be the last hook
-      protect('password')
+      protect('password'),
+      populate({
+        schema: {
+          include:[{
+            service: 'posts',
+            nameAs: 'posts',
+            parentField: 'posts',
+            childField: '_id'
+          }]
+        }
+      })
+
     ],
     find: [],
     get: [],
