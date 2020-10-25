@@ -15,6 +15,8 @@ export interface UserType extends Document {
   email: string 
   password: string
   avatar: string,
+  requestsSent: UserType[]
+  requestsRecieved: UserType[]
   followers: UserType[]
   follows: UserType[]
   posts:  PostType[]
@@ -29,8 +31,10 @@ export default function (app: Application): Model<UserType> {
   const schema = new mongooseClient.Schema({
     username: { type: String, required: true },
     email: { type: String, unique: true, lowercase: true, required: true },
-    password: { type: String },
+    password: { type: String, required: true },
     avatar: {type: String},
+    requestsSent: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+    requestsRecieved: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
     followers: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
     follows: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
     posts: [{ type: Schema.Types.ObjectId, ref: 'Posts' }],
