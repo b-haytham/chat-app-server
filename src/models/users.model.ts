@@ -15,6 +15,8 @@ export interface UserType extends Document {
   email: string 
   password: string
   avatar: string,
+  followers: UserType[]
+  follows: UserType[]
   posts:  PostType[]
   comments: CommentType[]
   rooms: RoomType[]
@@ -29,6 +31,8 @@ export default function (app: Application): Model<UserType> {
     email: { type: String, unique: true, lowercase: true, required: true },
     password: { type: String },
     avatar: {type: String},
+    followers: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+    follows: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
     posts: [{ type: Schema.Types.ObjectId, ref: 'Posts' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }],
     rooms: [{ type: Schema.Types.ObjectId, ref: 'Rooms' }],

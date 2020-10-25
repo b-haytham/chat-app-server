@@ -5,12 +5,14 @@
 import { Application } from '../declarations';
 import { Document, Model, Mongoose } from 'mongoose';
 import { UserType } from './users.model';
+import { CommentType } from './comments.model';
 
 export interface PostType extends Document {
   title: string
   description: string
   content: string
   owner: UserType
+  comments: CommentType[]
 }
 
 export default function (app: Application): Model<PostType> {
