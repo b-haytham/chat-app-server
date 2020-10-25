@@ -4,12 +4,12 @@
 // for more of what you can do here.
 import { Application } from '../declarations';
 import { Document, Model, Mongoose } from 'mongoose';
-import { UseType } from './users.model';
+import { UserType } from './users.model';
 import { PostType } from './posts.model';
 
 export interface CommentType extends Document {
   text: string 
-  owner: UseType
+  owner: UserType
   post: PostType
 }
 

@@ -2,7 +2,7 @@ import { Service, MongooseServiceOptions } from 'feathers-mongoose';
 import { Application } from '../../declarations';
 import crypto from 'crypto'
 import { Id, Params } from '@feathersjs/feathers';
-import { UseType } from '../../models/users.model';
+import { UserType } from '../../models/users.model';
 import app from '../../app';
 
 

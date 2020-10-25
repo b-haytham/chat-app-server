@@ -1,28 +1,27 @@
-// posts-model.ts - A mongoose model
+// rooms-model.ts - A mongoose model
 //
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 import { Application } from '../declarations';
 import { Document, Model, Mongoose } from 'mongoose';
 import { UserType } from './users.model';
+import { MessageType } from './messages.model';
 
-export interface PostType extends Document {
-  title: string
-  description: string
-  content: string
-  owner: UserType
+
+export interface RoomType extends Document {
+  users: UserType[],
+  messages: MessageType[]
+
 }
 
-export default function (app: Application): Model<PostType> {
-  const modelName = 'posts';
+
+export default function (app: Application): Model<RoomType> {
+  const modelName = 'rooms';
   const mongooseClient: Mongoose = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const schema = new Schema({
-    title: {type: String, required: true},
-    content: { type: String, required: true },
-    description: { type: String, required: true },
-    owner: { type: Schema.Types.ObjectId, ref: "Users" },
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }]
+    users: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+    messages: [{ type: Schema.Types.ObjectId, ref: 'Messages' }]
   }, {
     timestamps: true
   });
@@ -32,5 +31,5 @@ export default function (app: Application): Model<PostType> {
   if (mongooseClient.modelNames().includes(modelName)) {
     (mongooseClient as any).deleteModel(modelName);
   }
-  return mongooseClient.model<PostType>(modelName, schema);
+  return mongooseClient.model<RoomType>(modelName, schema);
 }
