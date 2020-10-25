@@ -3,16 +3,22 @@
 import { Hook, HookContext } from "@feathersjs/feathers";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (options = {}): Hook => {
+
+type Options = {
+  serviceTargetName: string
+  idField: string
+  targetFieldToUpdate: string
+}
+
+export default (options: Options): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
-    const r = await context.app
-      .service("users")
+     await context.app
+      .service(options.serviceTargetName)
       .Model.findByIdAndUpdate(
-        context.data.owner,
-        { $push: { posts: context.result._id } },
+        context.data[options.idField],
+        { $push: { [options.targetFieldToUpdate]: context.result._id } },
         { new: true, useFindAndModify: true }
       );
-
     return context;
   };
 };

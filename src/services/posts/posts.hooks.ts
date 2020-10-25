@@ -1,6 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
 import { populate } from 'feathers-hooks-common';
-import insertPostIdToUser from '../../hooks/insert-post-id-to-user';
+import insertId from '../../hooks/insertId';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -36,7 +36,7 @@ export default {
     ],
     find: [],
     get: [],
-    create: [insertPostIdToUser()],
+    create: [insertId({serviceTargetName: 'users', idField: 'owner' , targetFieldToUpdate: 'posts'})],
     update: [],
     patch: [],
     remove: []

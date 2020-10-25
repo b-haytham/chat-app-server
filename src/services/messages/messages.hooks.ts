@@ -1,4 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
+import insertId from '../../hooks/insertId';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -18,7 +19,11 @@ export default {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [
+      insertId({serviceTargetName: 'users', idField: 'sender', targetFieldToUpdate: 'messagesSent'}),
+      insertId({serviceTargetName: 'users', idField: 'reciever', targetFieldToUpdate: 'messagesRecieved'}),
+      insertId({serviceTargetName: 'messages', idField: 'room', targetFieldToUpdate: 'messages'})
+    ],
     update: [],
     patch: [],
     remove: []

@@ -22,7 +22,8 @@ export interface UserType extends Document {
   posts:  PostType[]
   comments: CommentType[]
   rooms: RoomType[]
-  messages: MessageType[]
+  messagesSent: MessageType[]
+  messagesRecieved: MessageType[]
 }
 
 export default function (app: Application): Model<UserType> {
@@ -40,7 +41,8 @@ export default function (app: Application): Model<UserType> {
     posts: [{ type: Schema.Types.ObjectId, ref: 'Posts' }],
     comments: [{ type: Schema.Types.ObjectId, ref: 'Comments' }],
     rooms: [{ type: Schema.Types.ObjectId, ref: 'Rooms' }],
-    messages: [{type: Schema.Types.ObjectId, Ref: 'Messages'}]
+    messagesSent: [{type: Schema.Types.ObjectId, Ref: 'Messages'}],
+    messagesRecieved: [{type: Schema.Types.ObjectId, Ref: 'Messages'}]
   }, {
     timestamps: true
   });

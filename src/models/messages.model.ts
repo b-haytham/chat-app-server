@@ -10,7 +10,7 @@ import { RoomType } from './rooms.model';
 
 export interface MessageType extends Document {
   sender: UserType
-  reciever: UserType[]
+  reciever: UserType
   room: RoomType
   centent: string
 }
@@ -23,7 +23,7 @@ export default function (app: Application): Model<MessageType> {
     sender: { type: Schema.Types.ObjectId, ref: 'Users' },
     reciever: { type: Schema.Types.ObjectId, ref: 'Users' },
     room: { type: Schema.Types.ObjectId, ref: 'Rooms'},
-    text: { type: String, required: true }
+    content: { type: String, required: true }
   }, {
     timestamps: true
   });

@@ -9,9 +9,10 @@ import { MessageType } from './messages.model';
 
 
 export interface RoomType extends Document {
-  users: UserType[],
+  creator: UserType
+  acceptor: UserType
   messages: MessageType[]
-
+  
 }
 
 
@@ -20,7 +21,8 @@ export default function (app: Application): Model<RoomType> {
   const mongooseClient: Mongoose = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const schema = new Schema({
-    users: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+    creator: { type: Schema.Types.ObjectId, ref: 'Users' },
+    acceptor: { type: Schema.Types.ObjectId, ref: 'Users' },
     messages: [{ type: Schema.Types.ObjectId, ref: 'Messages' }]
   }, {
     timestamps: true
