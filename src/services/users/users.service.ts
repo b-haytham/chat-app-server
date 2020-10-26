@@ -4,6 +4,7 @@ import { Application } from '../../declarations';
 import { Users } from './users.class';
 import createModel from '../../models/users.model';
 import hooks from './users.hooks';
+import { MongooseServiceOptions } from 'feathers-mongoose/types';
 
 // Add this service to the service type index
 declare module '../../declarations' {
@@ -17,7 +18,7 @@ export default function (app: Application): void {
     Model: createModel(app),
     paginate: app.get('paginate'),
     whitelist: '$populate',
-
+    
   };
 
   // Initialize our service with any options it requires

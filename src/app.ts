@@ -1,3 +1,4 @@
+import {config} from 'dotenv'
 import path from 'path';
 import favicon from 'serve-favicon';
 import compress from 'compression';
@@ -9,6 +10,7 @@ import configuration from '@feathersjs/configuration';
 import express from '@feathersjs/express';
 import socketio from '@feathersjs/socketio';
 
+config()
 
 import { Application } from './declarations';
 import logger from './logger';
