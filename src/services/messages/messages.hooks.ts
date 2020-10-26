@@ -1,5 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
 import insertId from '../../hooks/insertId';
+import IsAuthorized from '../../hooks/IsAuthorized';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -12,7 +13,7 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [IsAuthorized({serviceToProtect: 'messages', fieldToCheck: 'sender'})]
   },
 
   after: {

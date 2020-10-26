@@ -1,6 +1,7 @@
 import * as authentication from '@feathersjs/authentication';
 import { populate } from 'feathers-hooks-common';
 import insertId from '../../hooks/insertId';
+import IsAuthorized from '../../hooks/IsAuthorized';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -11,32 +12,13 @@ export default {
     find: [],
     get: [],
     create: [],
-    update: [],
-    patch: [],
-    remove: []
+    update: [IsAuthorized({serviceToProtect: 'comments', fieldToCheck: 'owner'})],
+    patch: [IsAuthorized({serviceToProtect: 'comments', fieldToCheck: 'owner'})],
+    remove: [IsAuthorized({serviceToProtect: 'comments', fieldToCheck: 'owner'})]
   },
 
   after: {
-    all: [populate({
-      schema: {
-        include: [
-          {
-            service: 'users',
-            nameAs: 'owner',
-            parentField: 'owner',
-            childField: '_id'
-          },
-            {
-              service: 'posts',
-              nameAs: 'post',
-              parentField: 'post',
-              childField: '_id'
-            }
-          
-
-        ]
-      }
-    })],
+    all: [],
     find: [],
     get: [],
     create: [

@@ -1,6 +1,7 @@
 import * as feathersAuthentication from '@feathersjs/authentication';
 import * as local from '@feathersjs/authentication-local';
 import { populate } from 'feathers-hooks-common';
+import IsAuthorized from '../../hooks/IsAuthorized';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 
@@ -14,9 +15,9 @@ export default {
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
     create: [ hashPassword('password') ],
-    update: [ hashPassword('password'),  authenticate('jwt') ],
-    patch: [ hashPassword('password'),  authenticate('jwt') ],
-    remove: [ authenticate('jwt') ]
+    update: [ hashPassword('password'),  authenticate('jwt') , IsAuthorized({serviceToProtect: 'users', fieldToCheck: '_id'})],
+    patch: [ hashPassword('password'),  authenticate('jwt') , IsAuthorized({serviceToProtect: 'users', fieldToCheck: '_id'})],
+    remove: [ authenticate('jwt'), IsAuthorized({serviceToProtect: 'users', fieldToCheck: '_id'}) ]
   },
 
   after: {
@@ -24,22 +25,6 @@ export default {
       // Make sure the password field is never sent to the client
       // Always must be the last hook
       protect('password'),
-      populate({
-        schema: {
-          include:[{
-            service: 'posts',
-            nameAs: 'posts',
-            parentField: 'posts',
-            childField: '_id'
-          },{
-            service: 'comments',
-            nameAs: 'comments',
-            parentField: 'comments',
-            childField: '_id'
-          }]
-        }
-      })
-
     ],
     find: [],
     get: [],
