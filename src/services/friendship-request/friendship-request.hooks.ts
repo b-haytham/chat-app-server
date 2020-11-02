@@ -1,4 +1,6 @@
 import * as authentication from '@feathersjs/authentication';
+import { disallow, preventChanges } from 'feathers-hooks-common';
+import deleteId from '../../hooks/deleteId';
 import insertId from '../../hooks/insertId';
 import IsAuthorized from '../../hooks/IsAuthorized';
 // Don't remove this comment. It's needed to format import lines nicely.
@@ -8,11 +10,14 @@ const { authenticate } = authentication.hooks;
 export default {
   before: {
     all: [ authenticate('jwt') ],
-    find: [],
-    get: [],
+    find: [ disallow('external') ],
+    get: [ disallow('external') ],
     create: [],
-    update: [IsAuthorized({serviceToProtect: 'friendship-request', fieldToCheck: 'reciever'})],
-    patch: [IsAuthorized({serviceToProtect: 'friendship-request', fieldToCheck: 'reciever'})],
+    update: [disallow('external')],
+    patch: [
+      IsAuthorized({serviceToProtect: 'friendship-request', fieldToCheck: 'reciever'}),
+      preventChanges(true, ...["sender", "reciever"])
+    ],
     remove: []
   },
 
@@ -25,7 +30,10 @@ export default {
       insertId({serviceTargetName: 'users', idField: 'reciever', targetFieldToUpdate: 'requestsRecieved' })
     ],
     update: [],
-    patch: [],
+    patch: [
+      deleteId({serviceTargetName: 'users', idField: 'sender', targetFieldToUpdate: 'requestsSent'}),
+      deleteId({serviceTargetName: 'users', idField: 'reciever', targetFieldToUpdate: 'requestsRecieved'})
+    ],
     remove: []
   },
 

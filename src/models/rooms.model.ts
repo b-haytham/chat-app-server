@@ -6,13 +6,14 @@ import { Application } from '../declarations';
 import { Document, Model, Mongoose } from 'mongoose';
 import { UserType } from './users.model';
 import { MessageType } from './messages.model';
+import { FriendshipRequestType } from './friendship-request.model';
 
 
 export interface RoomType extends Document {
   creator: UserType
   acceptor: UserType
   messages: MessageType[]
-  
+  friendshipRequestAssociated: FriendshipRequestType 
 }
 
 
@@ -23,7 +24,8 @@ export default function (app: Application): Model<RoomType> {
   const schema = new Schema({
     creator: { type: Schema.Types.ObjectId, ref: 'Users' },
     acceptor: { type: Schema.Types.ObjectId, ref: 'Users' },
-    messages: [{ type: Schema.Types.ObjectId, ref: 'Messages' }]
+    messages: [{ type: Schema.Types.ObjectId, ref: 'Messages' }],
+    friendshipRequestAssociated: {type: Schema.Types.ObjectId, ref: 'Friendship-request'}
   }, {
     timestamps: true
   });
