@@ -24,7 +24,7 @@ export default {
     create: [
       insertId({serviceTargetName: 'users', idField: 'sender', targetFieldToUpdate: 'messagesSent'}),
       insertId({serviceTargetName: 'users', idField: 'reciever', targetFieldToUpdate: 'messagesRecieved'}),
-      insertId({serviceTargetName: 'messages', idField: 'room', targetFieldToUpdate: 'messages'})
+      insertId({serviceTargetName: 'rooms', idField: 'room', targetFieldToUpdate: 'messages'})
     ],
     update: [],
     patch: [ ],

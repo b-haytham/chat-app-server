@@ -5,14 +5,14 @@ import { Hook, HookContext } from "@feathersjs/feathers";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 type Options = {
-  serviceTargetName: string
-  idField: string
-  targetFieldToUpdate: string
-}
+  serviceTargetName: string;
+  idField: string;
+  targetFieldToUpdate: string;
+};
 
 export default (options: Options): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
-     await context.app
+    await context.app
       .service(options.serviceTargetName)
       .Model.findByIdAndUpdate(
         context.data[options.idField],

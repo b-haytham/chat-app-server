@@ -1,19 +1,46 @@
 import * as feathersAuthentication from "@feathersjs/authentication";
 import * as local from "@feathersjs/authentication-local";
-import { populate, preventChanges } from "feathers-hooks-common";
+import {
+  populate,
+  PopulateSchema,
+  preventChanges,
+} from "feathers-hooks-common";
 import IsAuthorized from "../../hooks/IsAuthorized";
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = feathersAuthentication.hooks;
 const { hashPassword, protect } = local.hooks;
 
-const useSchema = {
-  include: {
-    service: "posts",
-    nameAs: "posts",
-    parentField: "posts",
-    childField: "_id",
-  },
+const useSchema: Partial<PopulateSchema> = {
+  include: [
+    {
+      service: "posts",
+      nameAs: "posts",
+      parentField: "posts",
+      childField: "_id",
+      asArray: true,
+    },
+    {
+      service: "users",
+      nameAs: 'requestsSent',
+      parentField: "requestsSent",
+      childField: "_id",
+      asArray: true,
+    },
+    {
+      service: "users",
+      nameAs: 'requestsRecieved',
+      parentField: "requestsRecieved",
+      childField: "_id",
+      asArray: true,
+    },
+    {
+      service: "rooms",
+      parentField: "rooms",
+      childField: "_id",
+      asArray: true,
+    },
+  ],
 };
 
 export default {
@@ -43,7 +70,7 @@ export default {
           "comments",
           "rooms",
           "messagesSent",
-          "messagesRecieved"
+          "messagesRecieved",
         ]
       ),
     ],
