@@ -45,15 +45,15 @@ export default function (app: Application): void {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   //app.publish((data: any, hook: HookContext) => {
-    // Here you can add event publishers to channels set up in `channels.ts`
-    // To publish only for a specific event use `app.publish(eventname, () => {})`
+  // Here you can add event publishers to channels set up in `channels.ts`
+  // To publish only for a specific event use `app.publish(eventname, () => {})`
 
-    //console.log(
-      // "Publishing all events to all authenticated users. See `channels.ts` and https://docs.feathersjs.com/api/channels.html for more information."
-   // ); // eslint-disable-line
+  //console.log(
+  // "Publishing all events to all authenticated users. See `channels.ts` and https://docs.feathersjs.com/api/channels.html for more information."
+  // ); // eslint-disable-line
 
-    // e.g. to publish all service events to all authenticated users use
-    //return app.channel("authenticated");
+  // e.g. to publish all service events to all authenticated users use
+  //return app.channel("authenticated");
   //});
 
   // Here you can also add service specific event publishers
@@ -61,10 +61,17 @@ export default function (app: Application): void {
   // app.service('users').publish('created', () => app.channel('admins'));
 
   // With the userid and email organization from above you can easily select involved users
-  app.service('messages').publish((data,context) => {
-     return [
-       app.channel(`userIds/${data.sender}`),
-       app.channel(`userIds/${data.reciever}`)
-     ];
+  app.service("messages").publish((data, context) => {
+    return [
+      app.channel(`userIds/${data.sender}`),
+      app.channel(`userIds/${data.reciever}`),
+    ];
+  });
+
+  app.service("followers").publish((data, context) => {
+    return [
+      app.channel(`userIds/${data.sender}`),
+      app.channel(`userIds/${data.reciever}`),
+    ];
   });
 }
