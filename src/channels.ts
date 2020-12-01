@@ -74,4 +74,16 @@ export default function (app: Application): void {
       app.channel(`userIds/${data.reciever}`),
     ];
   });
+
+  app.service("posts").publish(async (data, context) => {
+    const user = await app.service("users").get(data.owner);
+    return app.channel("authenticated").send({
+      ...data,
+      owner: {
+        _id: user._id,
+        username: user.username,
+        avatar: user.avatar,
+      },
+    });
+  });
 }
