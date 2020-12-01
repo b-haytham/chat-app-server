@@ -38,7 +38,7 @@ const friendShipRequestPopulationSchema: Partial<PopulateSchema> = {
 export default {
   before: {
     all: [authenticate("jwt")],
-    find: [disallow("external")],
+    find: [],
     get: [disallow("external")],
     create: [],
     update: [disallow("external")],
