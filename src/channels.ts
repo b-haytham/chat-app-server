@@ -86,4 +86,25 @@ export default function (app: Application): void {
       },
     });
   });
+
+  app.service("friendship-request").publish(async (data, context) => {
+    const sender = await app.service("users").get(data.sender);
+    const reciever = await app.service("users").get(data.reciever);
+    return [
+      app.channel(`userIds/${data.sender}`).send({ ...data, sender, reciever }),
+      app.channel(`userIds/${data.reciever}`).send({
+        ...data,
+        sender: {
+          _id: sender._id,
+          username: sender.username,
+          avatar: sender.avatar,
+        },
+        reciever: {
+          _id: reciever._id,
+          username: reciever.username,
+          avatar: reciever.avatar,
+        },
+      }),
+    ];
+  });
 }
