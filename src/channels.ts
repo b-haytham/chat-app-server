@@ -93,4 +93,11 @@ export default function (app: Application): void {
       app.channel(`userIds/${data.reciever._id}`),
     ];
   });
+
+  app.service("rooms").publish(async (data, context) => {
+    return [
+      app.channel(`userIds/${data.creator._id}`).send(data),
+      app.channel(`userIds/${data.acceptor._id}`).send(data),
+    ];
+  });
 }
