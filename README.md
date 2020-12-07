@@ -7,7 +7,7 @@
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
 This is social media api build with feathers.
 
-react native client >> [chat-app-client]()
+react native client >> [chat-app-client](https://github.com/b-haytham/chat-app-client)
 
 ## Getting Started
 
