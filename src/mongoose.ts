@@ -6,8 +6,8 @@ export default function (app: Application): void {
   mongoose.connect(
     app.get('mongodb'),
     { useCreateIndex: true, useNewUrlParser: true, useFindAndModify: true, useUnifiedTopology: true }
-  ).catch(err => {
-    logger.error(err);
+  ).then(()=> console.log('>> Connected to db')).catch(err => {
+    console.error(err);
     process.exit(1);
   });
   
